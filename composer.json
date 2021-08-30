@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-curl": "*",
+        "ext-json": "*",
         "composer/package-versions-deprecated": "1.11.99.3",
         "doctrine/annotations": "^1.13",
         "doctrine/doctrine-bundle": "^2.4",
@@ -78,6 +79,7 @@
         "symfony/css-selector": "5.3.*",
         "symfony/debug-bundle": "5.3.*",
         "symfony/maker-bundle": "^1.33",
-        "symfony/phpunit-bridge": "^5.3"
+        "symfony/phpunit-bridge": "^5.3",
+        "symfony/web-profiler-bundle": "5.3.*"
     }
 }

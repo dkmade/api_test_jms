@@ -41,6 +41,20 @@ class BookRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function findOneWithLocale($book, $locale): ?Book
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.bookNames', 'bn')
+            ->addSelect('bn')
+            ->andWhere('bn.locale = :locale')
+            ->setParameter('locale', $locale)
+            ->andWhere('b.id = :book')
+            ->setParameter('book', $book)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */

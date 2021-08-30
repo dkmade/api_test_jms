@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use OpenApi\Annotations as OA;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -25,13 +26,13 @@ class Book
 
     /**
      * @ORM\ManyToMany(targetEntity=Author::class, cascade={"persist"})
-     * @JMS\Groups({"book:read"})
+     * @JMS\Groups({"book:read","book:write"})
      */
     private Collection $authors;
 
     /**
      * @ORM\OneToMany(targetEntity=BookName::class, mappedBy="book", orphanRemoval=true, cascade={"persist"})
-     *
+     * @JMS\Groups({"book:read:all-locales"})
      */
     private Collection $bookNames;
 
@@ -39,13 +40,33 @@ class Book
      * @return string
      *
      * @JMS\VirtualProperty()
-     * @JMS\Groups({"book:read"})
+     * @JMS\Groups({"book:read:locale"})
      * @JMS\Type("string")
      * @JMS\SerializedName("name")
      */
     public function getName(): string
     {
         return (isset($this->bookNames[0]) ? $this->bookNames[0]->getName() : '');
+    }
+
+    /**
+     * @var BookName[]
+     *
+     * @JMS\Groups({"book:write"})
+     * @JMS\Type("array<App\Entity\BookName>")
+     * @JMS\SerializedName("names")
+     * @JMS\Accessor(setter="setBookNames")
+     *
+     */
+    private $names;
+
+    public function setBookNames($names)
+    {
+        dump($names);
+        $this->bookNames = new ArrayCollection();
+        foreach ($names as $name) {
+            $this->addBookName($name);
+        }
     }
 
     public function __construct()

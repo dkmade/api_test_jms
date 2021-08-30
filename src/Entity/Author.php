@@ -17,13 +17,13 @@ class Author
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @JMS\Groups({"book:read"})
+     * @JMS\Groups({"book:read","book:write", "author:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @JMS\Groups({"book:read"})
+     * @JMS\Groups({"book:read", "author:write", "author:read"})
      */
     private ?string $name;
 
