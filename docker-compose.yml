@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  database:
+    restart: always
+    container_name: database
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=symfony
+      - POSTGRES_PASSWORD=symfony
+      - POSTGRES_DB=symfony
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql
+  php:
+    container_name: php
+    build:
+      context: ./docker/php
+      args:
+        USER_ID: ${USER_ID:-0}
+        GROUP_ID: ${GROUP_ID:-0}
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./:/var/www/api_test_gazprom
+    depends_on:
+      - database
+  nginx:
+    container_name: nginx
+    image: nginx:stable-alpine
+    ports:
+      - '80:80'
+    volumes:
+      - ./:/var/www/api_test_gazprom
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - database
