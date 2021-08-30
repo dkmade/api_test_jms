@@ -12,7 +12,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./docker/postgres:/var/lib/postgresql
+      - ./docker/postgres:/var/lib/postgresql:rw
   php:
     container_name: php
     build:
@@ -23,7 +23,7 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - ./:/var/www/api_test_gazprom
+      - ./:/var/www/api_test_jms
     depends_on:
       - database
   nginx:
@@ -32,7 +32,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - ./:/var/www/api_test_gazprom
+      - ./:/var/www/api_test_jms
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php

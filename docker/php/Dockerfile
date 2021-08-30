@@ -23,13 +23,14 @@ RUN apt update && apt install -y mc \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 
-WORKDIR /var/www/api_test_gazprom
+WORKDIR /var/www/api_test_jms
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 RUN echo "alias sf='symfony console'" > ~/.bash_aliases
+RUN echo "alias sc='symfony composer'" > ~/.bash_aliases
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" > ~/.bashrc
 
 RUN git config --global user.email "USER@DOMAIN.COM" && git config --global user.name "USERNAME"
