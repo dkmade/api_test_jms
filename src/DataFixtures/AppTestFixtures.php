@@ -7,8 +7,6 @@ use App\Entity\Book;
 use App\Entity\BookName;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use function Symfony\Component\String\u;
 
 class AppTestFixtures extends Fixture
 {
