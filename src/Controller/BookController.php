@@ -88,7 +88,7 @@ class BookController extends AbstractController
         );
 
         $serializationContext = SerializationContext::create()->setSerializeNull(true)
-            ->setGroups(['book:read', 'book:read:locales']);
+            ->setGroups(['book:read', 'book:read:locale']);
         $json = $serializer->serialize($pagination->getItems(), 'json', $serializationContext);
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
@@ -124,7 +124,7 @@ class BookController extends AbstractController
         $book = $em->getRepository(Book::class)->findOneWithLocale($id, $locale);
 
         $serializationContext = SerializationContext::create()->setSerializeNull(true)
-            ->setGroups(['book:read', 'book:read:locales']);
+            ->setGroups(['book:read', 'book:read:locale']);
         $json = $serializer->serialize($book, 'json', $serializationContext);
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }

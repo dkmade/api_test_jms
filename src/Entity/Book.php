@@ -62,7 +62,6 @@ class Book
 
     public function setBookNames($names)
     {
-        dump($names);
         $this->bookNames = new ArrayCollection();
         foreach ($names as $name) {
             $this->addBookName($name);

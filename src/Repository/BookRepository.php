@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -28,9 +29,9 @@ class BookRepository extends ServiceEntityRepository
     public function findByQuery($query, $locale): QueryBuilder
     {
         $qb = $this->createQueryBuilder('b')
-            ->innerJoin('b.bookNames', 'bn')
+            ->leftJoin('b.bookNames', 'bn', Join::WITH, 'bn.locale = :locale')
             ->addSelect('bn')
-            ->andWhere('bn.locale = :locale')
+
             ->setParameter('locale', $locale);
 
         if ($query) {
@@ -44,9 +45,8 @@ class BookRepository extends ServiceEntityRepository
     public function findOneWithLocale($book, $locale): ?Book
     {
         return $this->createQueryBuilder('b')
-            ->innerJoin('b.bookNames', 'bn')
+            ->leftJoin('b.bookNames', 'bn', Join::WITH, 'bn.locale = :locale')
             ->addSelect('bn')
-            ->andWhere('bn.locale = :locale')
             ->setParameter('locale', $locale)
             ->andWhere('b.id = :book')
             ->setParameter('book', $book)
