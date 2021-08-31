@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Api;
 
 
-use App\DataFixtures\AppTestFixtures;
+use App\DataFixtures\AppFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -46,7 +46,7 @@ class AuthorTest extends WebTestCase
         }
 
         $loader = new Loader();
-        $loader->addFixture(new AppTestFixtures());
+        $loader->addFixture(new AppFixtures());
 
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
@@ -66,7 +66,7 @@ class AuthorTest extends WebTestCase
 
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $array = [
-            'id' => 9,
+            'id' => 110,
             'name' => 'Автор А.А.'
 
         ];

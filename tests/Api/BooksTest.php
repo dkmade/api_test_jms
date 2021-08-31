@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Api;
 
 
-use App\DataFixtures\AppTestFixtures;
+use App\DataFixtures\AppFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -46,7 +46,7 @@ class BooksTest extends WebTestCase
         }
 
         $loader = new Loader();
-        $loader->addFixture(new AppTestFixtures());
+        $loader->addFixture(new AppFixtures());
 
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
@@ -59,7 +59,7 @@ class BooksTest extends WebTestCase
 
         $client->request('POST', '/api/books', [], [], [], json_encode([
             'authors' => [
-                ['id' => 1]
+                ['id' => 7]
             ],
             'names' => [
                 [
@@ -78,10 +78,10 @@ class BooksTest extends WebTestCase
 
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $array = [
-            'id' => 5,
+            'id' => 721,
             'authors' => [
                 [
-                    'id' => 1,
+                    'id' => 7,
                     'name' => 'Братья Гримм'
                 ],
             ],
@@ -103,22 +103,22 @@ class BooksTest extends WebTestCase
     {
         $client = $this->client;
 
-        $client->request('GET', '/ru/api/books', []);
+        $client->request('GET', '/ru/api/books', ['limit' => 1000]);
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertResponseHeaderSame('content-type', 'application/json');
 
         $responseArray = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertCount(4, $responseArray);
+        self::assertCount(720, $responseArray);
 
         $array = [
-            "name" => "Праздник",
+            "name" => "Статья мистера Блока",
             "id" => 1,
             "authors" => [
                 [
-                    "id" => 6,
-                    "name" => "Говард Филлипс Лавкрафт"
+                    "id" => 1,
+                    "name" => "Марк Твен"
                 ]
             ]
         ];
@@ -138,12 +138,12 @@ class BooksTest extends WebTestCase
         $responseArray = json_decode($client->getResponse()->getContent(), true);
 
         $array = [
-            "name" => "Праздник",
+            "name" => "Статья мистера Блока",
             "id" => 1,
             "authors" => [
                 [
-                    "id" => 6,
-                    "name" => "Говард Филлипс Лавкрафт"
+                    "id" => 1,
+                    "name" => "Марк Твен"
                 ]
             ]
         ];
