@@ -11,7 +11,7 @@
     $ docker-compose up -d
     $ docker-compose exec php symfony composer install
     $ docker-compose exec php symfony console d:m:m -n
-    $ docker-compose exec php symfony console doctrine:fixtures:load --group=dev
+    $ docker-compose exec php symfony console doctrine:fixtures:load --group=dev -n
 
 http://127.0.0.1/api/doc  документация
 
